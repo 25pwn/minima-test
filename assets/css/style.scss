@@ -5,14 +5,3 @@
 @import
   "minima/skins/{{ site.minima.skin | default: 'classic' }}",
   "minima/initialize";
-
-.tag-link {
-  background-color:rgb(221, 221, 221);
-  color:#fff;
-  display:inline-block;
-  padding-left:8px;
-  padding-right:8px;
-  margin: 0px 2px;
-  text-align:center;
-  border-radius:10%;
-}

@@ -1,21 +1,14 @@
 Jekyll::Hooks.register :posts, :post_write do |post|
-    all_existing_tags = Dir.entries("_tags")
-      .map { |t| t.match(/(.*).md/) }
-      .compact.map { |m| m[1] }
-  
-    tags = post['tags'].reject { |t| t.empty? }
-    tags.each do |tag|
-      generate_tag_file(tag) if !all_existing_tags.include?(tag)
+  tags = post['tags'].reject { |t| t.empty? }
+  tags.each do |tag|
+    path = "tags/" + tag_file_basename(tag) + ".md"
+    if !File.file?(path)
+      raise 'tag file for ' + tag + ' is missing at ' + path
     end
+    # generate_tag_file(tag) if !all_existing_tags.include?(tag)
   end
-  
-  def generate_tag_file(tag)
-    # generate tag file
-    File.open("_tags/#{tag}.md", "wb") do |file|
-      file << "---\nlayout: tags\ntag-name: #{tag}\n---\n"
-    end
-    # generate feed file
-    File.open("feeds/#{tag}.xml", "wb") do |file|
-      file << "---\nlayout: feed\ntag-name: #{tag}\n---\n"
-    end
-  end
+end
+
+def tag_file_basename(tag)
+  return tag + ''
+end
